@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10152b">
+<title>Bahasa Quest — Arena Belajar Bahasa Indonesia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+:root{
+ --bg:#0d1224;--panel:#171e36;--panel2:#1d2744;--line:rgba(255,255,255,.09);
+ --text:#f4f6ff;--muted:#a7b0ca;--purple:#9274ff;--cyan:#54d7e8;
+ --pink:#ff78b7;--yellow:#ffd166;--green:#6ee7a8;--red:#ff7b83;
+ --shadow:0 18px 50px rgba(0,0,0,.25);--radius:22px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 10% 0%,#24244c 0,transparent 36%),radial-gradient(ellipse at 90% 10%,#123d52 0,transparent 30%),var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer}
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+.sidebar{padding:26px 18px;border-right:1px solid var(--line);background:rgba(12,17,35,.76);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;z-index:5;backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:11px;padding:5px 9px 30px}
+.brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--purple),#55d6e7);display:grid;place-items:center;font-size:22px;box-shadow:0 8px 24px #9274ff55}
+.brand strong{font:700 19px 'Space Grotesk';letter-spacing:-.6px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.nav-label{font-size:10px;color:#737f9e;letter-spacing:1.6px;font-weight:800;padding:10px 12px}
+.nav{display:grid;gap:6px}
+.nav button{border:0;color:var(--muted);background:transparent;text-align:left;padding:12px 13px;border-radius:13px;display:flex;align-items:center;gap:12px;font-weight:600;transition:.2s}
+.nav button:hover,.nav button.active{background:linear-gradient(100deg,#9274ff2b,#54d7e814);color:white}
+.nav button.active{box-shadow:inset 3px 0 var(--purple)}
+.nav .ico{width:22px;text-align:center;font-size:17px}
+.side-bottom{margin-top:auto;padding:16px 12px;border:1px solid var(--line);border-radius:17px;background:#ffffff08}
+.side-bottom p{font-size:12px;color:var(--muted);line-height:1.5;margin:7px 0 12px}
+.main{min-width:0;padding:26px clamp(18px,4vw,54px) 60px;max-width:1500px;width:100%;margin:auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:28px}
+.crumb{color:var(--muted);font-size:13px}.crumb b{color:white}
+.profile{display:flex;align-items:center;gap:10px;background:#ffffff09;border:1px solid var(--line);padding:7px 12px;border-radius:15px}
+.avatar{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,#ff78b7,#9274ff);display:grid;place-items:center;font-weight:800}
+.profile small{display:block;color:var(--muted);font-size:10px}.profile strong{font-size:12px}
+.page{display:none;animation:fade .3s ease}.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-.8px}
+h1{font-size:clamp(31px,4vw,48px);line-height:1.08;margin:10px 0 12px}
+h2{font-size:25px;margin:0 0 8px}h3{font-size:17px;margin:0 0 7px}
+p{color:var(--muted);line-height:1.65}
+.hero{position:relative;overflow:hidden;border:1px solid #ffffff18;border-radius:28px;padding:clamp(24px,4vw,42px);background:linear-gradient(112deg,#292550 0%,#20294b 54%,#114453 100%);box-shadow:var(--shadow);display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:center}
+.hero:after{content:"";position:absolute;width:330px;height:330px;border:1px solid #ffffff16;border-radius:50%;right:8%;top:-190px;box-shadow:0 0 0 35px #ffffff08,0 0 0 75px #ffffff05}
+.hero p{max-width:560px;margin:0 0 22px;color:#c4cbe0}
+.hero-art{position:relative;z-index:1;display:grid;place-items:center;min-height:190px}
+.orbit{width:190px;height:190px;border:1px solid #ffffff35;border-radius:50%;display:grid;place-items:center;position:relative;background:radial-gradient(circle,#ffffff18,transparent 68%)}
+.orbit:before,.orbit:after{content:"";position:absolute;border:1px dashed #ffffff45;border-radius:50%;inset:20px;transform:rotate(45deg) scaleX(1.4)}
+.orbit:after{transform:rotate(-35deg) scaleX(1.35)}
+.book{font-size:75px;filter:drop-shadow(0 15px 15px #0006);z-index:1}
+.float{position:absolute;border:1px solid #ffffff2b;background:#ffffff18;backdrop-filter:blur(8px);padding:9px 12px;border-radius:13px;font-size:12px;font-weight:700}
+.float.one{top:8px;right:-4px}.float.two{bottom:8px;left:-12px}
+.btn{border:0;border-radius:12px;padding:11px 17px;font-weight:800;color:#10152b;background:linear-gradient(110deg,#b5a4ff,#65e2e7);box-shadow:0 7px 20px #54d7e833;transition:.2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.btn.secondary{background:#ffffff12;color:white;border:1px solid var(--line);box-shadow:none}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);box-shadow:none}
+.btn.small{padding:8px 12px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0 30px}
+.stat,.card{background:linear-gradient(145deg,#1b2340,#151c33);border:1px solid var(--line);border-radius:19px;padding:17px;box-shadow:0 8px 25px #00000012}
+.stat{display:flex;align-items:center;gap:12px}.stat-icon{width:42px;height:42px;border-radius:13px;background:#ffffff0d;display:grid;place-items:center;font-size:20px}
+.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{font:700 22px 'Space Grotesk'}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:28px 0 14px}
+.section-head p{font-size:13px;margin:4px 0 0}
+.game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.game-card{position:relative;overflow:hidden;min-height:190px;cursor:pointer;transition:.22s}
+.game-card:hover{transform:translateY(-4px);border-color:#9274ff88}
+.game-card.locked{opacity:.58;cursor:not-allowed;filter:saturate(.55)}
+.game-card.locked:hover{transform:none;border-color:var(--line)}
+.game-card .lock-note{display:inline-flex;align-items:center;gap:5px;margin-top:12px;padding:6px 9px;border-radius:8px;background:#ffffff12;color:#ffd166;font-size:10px;font-weight:800}
+.game-card .unlock-note{display:inline-flex;align-items:center;gap:5px;margin-top:12px;padding:6px 9px;border-radius:8px;background:#6ee7a81a;color:#6ee7a8;font-size:10px;font-weight:800}
+.game-art{height:76px;border-radius:14px;margin-bottom:13px;display:grid;place-items:center;font-size:38px;position:relative;overflow:hidden}
+.game-art:after{content:"";position:absolute;width:110px;height:110px;border:1px solid #ffffff38;border-radius:50%;right:-18px;top:-52px}
+.art-purple{background:linear-gradient(120deg,#644fc0,#a47bff)}.art-cyan{background:linear-gradient(120deg,#167d91,#5bd9e5)}.art-pink{background:linear-gradient(120deg,#a74278,#ff91c1)}.art-yellow{background:linear-gradient(120deg,#9d7131,#ffd166)}.art-green{background:linear-gradient(120deg,#277c60,#70e7aa)}
+.game-card p{font-size:12px;margin:0 0 13px}.game-meta{display:flex;justify-content:space-between;color:#8995b3;font-size:10px}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:8px;background:#ffffff0d;color:#cbd2e8;font-size:10px;font-weight:700}
+.content-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.progress-line{height:8px;background:#ffffff12;border-radius:20px;overflow:hidden;margin:10px 0}
+.progress-line span{height:100%;display:block;background:linear-gradient(90deg,var(--purple),var(--cyan));border-radius:20px}
+.lesson-list{display:grid;gap:9px;margin-top:14px}
+.lesson{display:flex;align-items:center;gap:12px;padding:12px;border-radius:13px;background:#ffffff07;border:1px solid var(--line);cursor:pointer}
+.lesson:hover{background:#ffffff10}.lesson-icon{width:39px;height:39px;border-radius:11px;background:#9274ff25;display:grid;place-items:center;font-size:18px}
+.lesson small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.page-intro{margin-bottom:23px}.page-intro p{max-width:680px;margin:5px 0}
+.material-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.material{cursor:pointer;transition:.2s}.material:hover{transform:translateY(-3px);border-color:#54d7e877}
+.material .material-icon{font-size:25px;margin-bottom:12px}.material p{font-size:13px;margin:5px 0 12px}
+.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start}
+.play-card{min-height:390px}.play-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:22px}
+.question{font:600 clamp(19px,2.4vw,25px) 'Space Grotesk';line-height:1.35;margin:14px 0 20px}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.option{border:1px solid var(--line);background:#ffffff08;color:white;text-align:left;padding:14px;border-radius:13px;line-height:1.4;transition:.15s}
+.option:hover{border-color:var(--purple);background:#9274ff20}
+.option.selected{border-color:var(--cyan);background:#54d7e81b}
+.option.correct{border-color:var(--green);background:#6ee7a81b}.option.wrong{border-color:var(--red);background:#ff7b831b}
+.feedback{margin-top:14px;padding:12px 14px;border-radius:12px;background:#ffffff0b;color:#dce3f8;font-size:13px;line-height:1.5;display:none}
+.feedback.show{display:block}
+.play-actions{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.side-info{display:grid;gap:13px}.side-info .card{padding:16px}
+.side-info p{font-size:12px;margin:6px 0}
+.word-bank,.sequence-list{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0}
+.word-chip{border:1px solid #ffffff25;background:#ffffff0c;color:white;border-radius:10px;padding:10px 13px;font-weight:700}
+.word-chip.used{opacity:.28;pointer-events:none}.answer-slots{display:flex;flex-wrap:wrap;gap:8px;min-height:55px;padding:10px;border:1px dashed #7180a6;border-radius:13px;align-items:center}
+.slot-chip{background:#9274ff35;border:1px solid #9274ff88;border-radius:9px;padding:8px 10px;cursor:pointer}
+.match-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.match-item{min-height:62px;text-align:center;display:grid;place-items:center;padding:10px;border:1px solid var(--line);border-radius:12px;background:#ffffff08;color:white;font-weight:700}
+.match-item.picked{border-color:var(--yellow);background:#ffd1661b}.match-item.matched{border-color:var(--green);background:#6ee7a81b;opacity:.65}
+.timer{font:700 20px 'Space Grotesk';color:var(--yellow)}
+.quiz-question{padding:18px;border-radius:15px;background:#ffffff08;border:1px solid var(--line);margin-bottom:12px}
+.quiz-question h3{line-height:1.4}
+.quiz-question label{display:flex;gap:9px;align-items:flex-start;padding:9px 5px;color:#cbd2e8;font-size:13px}
+.result{text-align:center;padding:28px 15px}.result .big{font:700 56px 'Space Grotesk';color:var(--cyan)}
+.empty{text-align:center;padding:28px;color:var(--muted)}
+.modal-backdrop{position:fixed;inset:0;background:#050817c9;z-index:20;display:none;place-items:center;padding:18px}
+.modal-backdrop.show{display:grid}.modal{width:min(680px,100%);max-height:85vh;overflow:auto;background:#19213b;border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:var(--shadow)}
+.modal p{font-size:14px}.modal h2{margin-bottom:14px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#e8fff2;color:#10251a;padding:12px 18px;border-radius:12px;font-weight:800;z-index:30;transition:.25s;box-shadow:var(--shadow)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.footer{text-align:center;color:#64708f;font-size:11px;padding:35px 0 0}
+@media(max-width:1050px){.game-grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+ .app{display:block;padding-bottom:72px}.sidebar{position:fixed;top:auto;bottom:0;height:68px;width:100%;padding:7px 9px;border-right:0;border-top:1px solid var(--line);background:#11182df2}
+ .brand,.nav-label,.side-bottom{display:none}.nav{display:flex;justify-content:space-around;gap:2px}.nav button{flex:1;display:grid;justify-items:center;gap:2px;padding:7px 2px;font-size:9px}.nav .ico{font-size:18px}
+ .main{padding:18px 15px 35px}.topbar{margin-bottom:19px}.hero{grid-template-columns:1fr;padding:25px}.hero-art{display:none}
+ .game-layout,.content-grid{grid-template-columns:1fr}.side-info{grid-template-columns:repeat(2,1fr)}
+ .game-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.game-card{padding:13px;min-height:185px}
+ .material-grid{grid-template-columns:1fr}.options{grid-template-columns:1fr}
+}
+@media(max-width:390px){.game-grid{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">文</div><div><strong>Bahasa Quest</strong><small>Learn · Play · Level Up</small></div></div>
+  <div class="nav-label">MENU UTAMA</div>
+  <nav class="nav">
+    <button class="active" data-page="home"><span class="ico">⌂</span>Beranda</button>
+    <button data-page="materi"><span class="ico">▤</span>Materi</button>
+    <button data-page="games"><span class="ico">🎮</span>Zona Game</button>
+    <button data-page="kuis"><span class="ico">✦</span>Kuis</button>
+    <button data-page="prestasi"><span class="ico">🏆</span>Prestasi</button>
+  </nav>
+  <div class="side-bottom"><span class="tag">✦ Misi hari ini</span><p>Selesaikan satu permainan dan kumpulkan XP pertamamu.</p><button class="btn small" onclick="showPage('games')">Mulai misi</button></div>
+</aside>
+
+<main class="main">
+  <header class="topbar"><div class="crumb">Bahasa Quest <span style="color:#63708e"> / </span><b id="crumbName">Beranda</b></div>
+    <div class="profile"><div class="avatar">P</div><div><strong>Petualang Bahasa</strong><small id="levelLabel">Level 1 · Pemula</small></div></div>
+  </header>
+
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div><div class="eyebrow">ARENA BELAJAR BAHASA INDONESIA</div><h1>Jelajahi Bahasa.<br><span style="color:#8feaf0">Taklukkan Tantangan.</span></h1>
+        <p>Asah kemampuan berbahasa, temukan rahasia teks, dan kumpulkan pengalaman di setiap misi. Belajar Bahasa Indonesia jadi lebih seru!</p>
+        <button class="btn" onclick="showPage('games')">Jelajahi permainan&nbsp; →</button>
+      </div>
+      <div class="hero-art"><div class="orbit"><div class="book">📚</div><div class="float one">✦ +XP</div><div class="float two">🎯 Misi baru</div></div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">⚡</div><div><small>Total XP</small><strong id="xpStat">0</strong></div></div>
+      <div class="stat"><div class="stat-icon">🎮</div><div><small>Game selesai</small><strong id="gamesStat">0</strong></div></div>
+      <div class="stat"><div class="stat-icon">📝</div><div><small>Kuis selesai</small><strong id="quizStat">0</strong></div></div>
+      <div class="stat"><div class="stat-icon">🏅</div><div><small>Level</small><strong id="levelStat">1</strong></div></div>
+    </div>
+    <div class="section-head"><div><div class="eyebrow">PILIH PETUALANGAN</div><h2>Game pilihan</h2><p>Lima cara seru untuk menguasai materi Bahasa Indonesia.</p></div><button class="btn secondary small" onclick="showPage('games')">Lihat semua →</button></div>
+    <div class="game-grid" id="homeGames"></div>
+    <div class="section-head"><div><div class="eyebrow">MULAI DARI SINI</div><h2>Ruang belajar</h2></div></div>
+    <div class="content-grid">
+      <div class="card"><h3>📖 Materi pembelajaran</h3><p>Pelajari konsep penting sebelum memasuki arena permainan.</p><button class="btn secondary small" onclick="showPage('materi')">Buka materi</button></div>
+      <div class="card"><h3>🎯 Uji pemahaman</h3><p>Kerjakan kuis singkat untuk mengukur pemahamanmu.</p><button class="btn secondary small" onclick="showPage('kuis')">Mulai kuis</button></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-materi">
+    <div class="page-intro"><div class="eyebrow">PERPUSTAKAAN PENGETAHUAN</div><h1>Materi Pembelajaran</h1><p>Pahami konsep dasarnya, lalu praktikkan melalui permainan. Pilih materi untuk membaca ringkasan dan contoh.</p></div>
+    <div class="material-grid" id="materialGrid"></div>
+  </section>
+
+  <section class="page" id="page-games">
+    <div class="page-intro"><div class="eyebrow">GAME CENTER</div><h1>Zona Permainan</h1><p>Pilih misi, kumpulkan poin, dan tingkatkan kemampuan berbahasa Indonesia.</p></div>
+    <div class="game-grid" id="allGames"></div>
+  </section>
+
+  <section class="page" id="page-play">
+    <div class="page-intro"><div class="eyebrow">SEDANG BERMAIN</div><h1 id="playTitle">Misi</h1><p id="playDesc">Selesaikan tantangan untuk mendapatkan XP.</p></div>
+    <div class="game-layout">
+      <div class="card play-card" id="gameStage"></div>
+      <aside class="side-info">
+        <div class="card"><div class="eyebrow">HADIAH MISI</div><h2 style="margin-top:8px;color:var(--yellow)">⚡ +20 XP</h2><p>Selesaikan permainan untuk menambahkan XP ke profilmu.</p></div>
+        <div class="card"><h3>💡 Tips bermain</h3><p>Baca instruksi dengan teliti. Gunakan materi sebagai panduan dan jangan takut mencoba lagi.</p></div>
+        <button class="btn secondary" onclick="showPage('games')">← Kembali ke game</button>
+      </aside>
+    </div>
+  </section>
+
+  <section class="page" id="page-kuis">
+    <div class="page-intro"><div class="eyebrow">EVALUASI PEMBELAJARAN</div><h1>Kuis Bahasa Indonesia</h1><p>Jawab lima pertanyaan berikut. Setiap jawaban benar bernilai 10 XP.</p></div>
+    <div class="card" id="quizStage"></div>
+  </section>
+
+  <section class="page" id="page-prestasi">
+    <div class="page-intro"><div class="eyebrow">PERJALANANMU</div><h1>Prestasi & Pencapaian</h1><p>Lihat perkembangan belajarmu di Bahasa Quest.</p></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">⚡</div><div><small>Total XP</small><strong id="xpStat2">0</strong></div></div>
+      <div class="stat"><div class="stat-icon">🎮</div><div><small>Game selesai</small><strong id="gamesStat2">0</strong></div></div>
+      <div class="stat"><div class="stat-icon">📝</div><div><small>Kuis selesai</small><strong id="quizStat2">0</strong></div></div>
+      <div class="stat"><div class="stat-icon">🏅</div><div><small>Level</small><strong id="levelStat2">1</strong></div></div>
+    </div>
+    <div class="card"><div class="section-head" style="margin-top:0"><div><h2>Perjalanan level</h2><p id="levelText">0 / 100 XP menuju level berikutnya</p></div><strong id="levelBig">LEVEL 1</strong></div><div class="progress-line"><span id="levelBar" style="width:0%"></span></div></div>
+    <div class="section-head"><div><h2>Lencana pencapaian</h2><p>Lencana terbuka seiring aktivitas belajarmu.</p></div></div>
+    <div class="material-grid" id="badges"></div>
+    <div style="margin-top:20px"><button class="btn ghost small" onclick="resetProgress()">Reset progres di perangkat ini</button></div>
+  </section>
+
+  <div class="footer">BAHASA QUEST · Media Pembelajaran Bahasa Indonesia SMA<br>Belajar dengan rasa ingin tahu. Bertumbuh melalui tantangan.</div>
+</main>
+</div>
+<div class="modal-backdrop" id="modal"><div class="modal"><button class="btn ghost small" style="float:right" onclick="closeModal()">Tutup ✕</button><div id="modalContent"></div></div></div>
+<div class="toast" id="toast">+20 XP berhasil ditambahkan!</div>
+
+<script>
+const games=[
+ {id:'susun',title:'Misi Susun Kata',desc:'Rangkai kata menjadi kalimat efektif.',icon:'🧩',art:'art-purple',type:'Susun kalimat',time:'3–5 menit'},
+ {id:'detektif',title:'Detektif Bahasa',desc:'Temukan kesalahan ejaan dan kebahasaan.',icon:'🕵️',art:'art-cyan',type:'Deteksi kesalahan',time:'3–5 menit'},
+ {id:'pasangan',title:'Pasangan Bahasa',desc:'Cocokkan istilah dengan pengertiannya.',icon:'🃏',art:'art-pink',type:'Mencocokkan',time:'3–5 menit'},
+ {id:'cerita',title:'Petualangan Cerita',desc:'Susun bagian cerita menjadi alur utuh.',icon:'📜',art:'art-yellow',type:'Urutan cerita',time:'3–5 menit'},
+ {id:'duel',title:'Duel Cerdas',desc:'Jawab pertanyaan sebelum waktu habis.',icon:'⚔️',art:'art-green',type:'Tantangan cepat',time:'2–4 menit'}
+];
+const materials=[
+ {icon:'✍️',title:'Teks Argumentasi',desc:'Menyampaikan pendapat dengan alasan dan bukti.',body:'Teks argumentasi adalah teks yang menyampaikan pendapat atau gagasan disertai alasan, fakta, dan bukti untuk meyakinkan pembaca. Struktur umumnya meliputi pengenalan isu atau tesis, rangkaian argumen, dan penegasan ulang.\\n\\nContoh: “Literasi digital perlu ditingkatkan karena masyarakat berhadapan dengan arus informasi yang sangat cepat. Kemampuan memeriksa sumber membantu pembaca membedakan informasi tepercaya dan informasi keliru.”'},
+ {icon:'📰',title:'Teks Editorial',desc:'Memahami opini redaksi terhadap isu aktual.',body:'Teks editorial adalah tulisan yang berisi pandangan atau sikap redaksi terhadap isu aktual. Editorial biasanya memuat pengenalan isu, penyampaian argumentasi, dan penegasan. Ciri pentingnya adalah aktual, logis, argumentatif, dan didukung fakta.\\n\\nBedakan fakta (dapat dibuktikan) dengan opini (penilaian atau pendapat).'},
+ {icon:'📚',title:'Cerpen & Unsur Intrinsik',desc:'Mengenali unsur pembangun cerita pendek.',body:'Cerpen merupakan karya prosa fiksi yang relatif singkat dan berfokus pada satu konflik utama. Unsur intrinsiknya meliputi tema, tokoh dan penokohan, alur, latar, sudut pandang, amanat, dan gaya bahasa.\\n\\nAlur dapat bergerak maju, mundur, atau campuran. Konflik menjadi penggerak peristiwa dalam cerita.'},
+ {icon:'🎭',title:'Majas & Diksi',desc:'Mengenali gaya bahasa dan pilihan kata.',body:'Diksi adalah pilihan kata yang digunakan penulis untuk menyampaikan gagasan secara tepat. Majas merupakan penggunaan bahasa yang memberi efek tertentu. Contoh: personifikasi memberi sifat manusia kepada benda atau alam; metafora membandingkan dua hal secara langsung; hiperbola melebih-lebihkan sesuatu.\\n\\nContoh personifikasi: “Angin malam berbisik di antara pepohonan.”'},
+ {icon:'🔎',title:'Kalimat Efektif & Ejaan',desc:'Menulis kalimat yang jelas, hemat, dan tepat.',body:'Kalimat efektif menyampaikan gagasan secara jelas, logis, hemat, dan sesuai kaidah. Perhatikan kesepadanan struktur, kehematan kata, kecermatan, dan kepaduan.\\n\\nContoh tidak efektif: “Para siswa-siswa sedang belajar.” Lebih efektif: “Para siswa sedang belajar” atau “Siswa-siswa sedang belajar.”'},
+ {icon:'🎙️',title:'Teks Anekdot & Hikayat',desc:'Mengenali humor kritik dan cerita Melayu klasik.',body:'Anekdot adalah cerita singkat yang mengandung humor dan sering menyampaikan kritik atau sindiran. Hikayat merupakan prosa lama yang umumnya berkisah tentang kehidupan istana, kesaktian, atau tokoh luar biasa.\\n\\nAnekdot dapat menyindir perilaku sosial melalui kelucuan, sedangkan hikayat memiliki ciri kemustahilan, kesaktian, dan penggunaan bahasa Melayu klasik.'}
+];
+const state=loadState();
+function loadState(){try{return JSON.parse(localStorage.getItem('bq-progress'))||{xp:0,games:0,quizzes:0,completed:[]}}catch(e){return{xp:0,games:0,quizzes:0,completed:[]}}}
+function save(){localStorage.setItem('bq-progress',JSON.stringify(state));updateStats()}
+function level(){return Math.floor(state.xp/100)+1}
+function updateStats(){
+ const ids=['xpStat','xpStat2'];ids.forEach(id=>document.getElementById(id).textContent=state.xp);
+ ['gamesStat','gamesStat2'].forEach(id=>document.getElementById(id).textContent=state.games);
+ ['quizStat','quizStat2'].forEach(id=>document.getElementById(id).textContent=state.quizzes);
+ ['levelStat','levelStat2'].forEach(id=>document.getElementById(id).textContent=level());
+ document.getElementById('levelLabel').textContent=`Level ${level()} · ${levelName()}`;
+ document.getElementById('levelText').textContent=`${state.xp%100} / 100 XP menuju level berikutnya`;
+ document.getElementById('levelBig').textContent=`LEVEL ${level()}`;
+ document.getElementById('levelBar').style.width=(state.xp%100)+'%';
+ renderBadges();
+ renderGameCards();
+}
+function levelName(){return ['Pemula','Penjelajah','Perangkai Kata','Ahli Bahasa','Legenda Literasi'][Math.min(4,level()-1)]}
+function showPage(name){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ const page=document.getElementById('page-'+name);if(page)page.classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+ document.getElementById('crumbName').textContent=({home:'Beranda',materi:'Materi',games:'Zona Game',kuis:'Kuis',prestasi:'Prestasi',play:'Zona Game'})[name]||name;
+ if(name==='kuis')renderQuiz();if(name==='prestasi')updateStats();window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function isGameUnlocked(index){
+ return index===0 || state.completed.includes(games[index-1].id);
+}
+function gameCard(g,index){
+ const unlocked=isGameUnlocked(index);
+ const done=state.completed.includes(g.id);
+ const status=done?'<span class="unlock-note">✓ Misi selesai</span>':unlocked?'<span class="unlock-note">🔓 Siap dimainkan</span>':`<span class="lock-note">🔒 Selesaikan ${games[index-1].title} dulu</span>`;
+ return `<div class="card game-card ${unlocked?'':'locked'}" onclick="${unlocked?`startGame('${g.id}')`:`showLockedMessage(${index})`}"><div class="game-art ${g.art}">${g.icon}</div><h3>${g.title}</h3><p>${g.desc}</p><div class="game-meta"><span>${g.type}</span><span>⏱ ${g.time}</span></div>${status}</div>`;
+}
+function renderGameCards(){
+ document.getElementById('homeGames').innerHTML=games.slice(0,3).map((g,i)=>gameCard(g,i)).join('');
+ document.getElementById('allGames').innerHTML=games.map((g,i)=>gameCard(g,i)).join('');
+}
+function showLockedMessage(index){
+ toast(`🔒 Selesaikan ${games[index-1].title} untuk membuka level ini.`);
+}
+renderGameCards();
+document.getElementById('materialGrid').innerHTML=materials.map((m,i)=>`<div class="card material" onclick="openMaterial(${i})"><div class="material-icon">${m.icon}</div><h3>${m.title}</h3><p>${m.desc}</p><span class="tag">Baca ringkasan →</span></div>`).join('');
+function openMaterial(i){const m=materials[i];document.getElementById('modalContent').innerHTML=`<div class="eyebrow">MATERI PEMBELAJARAN</div><h2>${m.icon} ${m.title}</h2><p style="white-space:pre-line">${m.body}</p><button class="btn" onclick="closeModal();showPage('games')">Coba permainan →</button>`;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2100)}
+function award(xp,gameId){state.xp+=xp;if(gameId){state.games++;if(!state.completed.includes(gameId))state.completed.push(gameId)}save();toast(`Hebat! +${xp} XP berhasil ditambahkan`)}
+let currentGame='',gameDone=false;
+function startGame(id){
+ const index=games.findIndex(x=>x.id===id);
+ if(index<0)return;
+ if(!isGameUnlocked(index)){showLockedMessage(index);return}
+ currentGame=id;gameDone=false;showPage('play');
+ const g=games[index];
+ document.getElementById('playTitle').textContent=g.title;
+ document.getElementById('playDesc').textContent=g.desc;
+ renderGame(id);
+}
+function finishGame(message='Misi selesai!'){if(gameDone)return;gameDone=true;award(20,currentGame);document.getElementById('gameStage').innerHTML=`<div class="result"><div style="font-size:55px">🏆</div><div class="eyebrow">MISI TUNTAS</div><h2>${message}</h2><div class="big">+20 XP</div><p>Terus jelajahi permainan lain untuk meningkatkan levelmu.</p><button class="btn" onclick="showPage('games')">Pilih game lain</button></div>`}
+function renderGame(id){
+ const stage=document.getElementById('gameStage');
+ if(id==='susun')renderArrange(stage);
+ if(id==='detektif')renderDetective(stage);
+ if(id==='pasangan')renderMatch(stage);
+ if(id==='cerita')renderStory(stage);
+ if(id==='duel')renderDuel(stage);
+}
+const arrangeData=[
+ {words:['membaca','siswa','di','perpustakaan','buku'],answer:'Siswa membaca buku di perpustakaan.'},
+ {words:['harus','informasi','memeriksa','kita','sebelum','membagikan'],answer:'Kita harus memeriksa informasi sebelum membagikan.'},
+ {words:['menjaga','tanggung jawab','lingkungan','bersama','adalah'],answer:'Menjaga lingkungan adalah tanggung jawab bersama.'}
+];
+function renderArrange(stage){
+ let idx=0,chosen=[];
+ function draw(){const q=arrangeData[idx];chosen=[];let shuffled=[...q.words].sort(()=>Math.random()-.5);
+ stage.innerHTML=`<div class="play-top"><span class="tag">🧩 TANTANGAN ${idx+1}/3</span><span class="tag">Susun kalimat efektif</span></div><h3>Susun kata berikut menjadi kalimat yang tepat.</h3><div class="answer-slots" id="slots"><span style="color:#7f8aa8;font-size:12px">Ketuk kata sesuai urutan kalimat…</span></div><div class="word-bank" id="bank">${shuffled.map((w,i)=>`<button class="word-chip" data-i="${i}" onclick="pickWord(${i})">${w}</button>`).join('')}</div><div class="feedback" id="fb"></div><div class="play-actions"><button class="btn ghost" onclick="resetWords()">Ulangi</button><button class="btn" onclick="checkWords()">Periksa jawaban</button></div>`;
+ window.pickWord=i=>{if(chosen.includes(i))return;chosen.push(i);document.querySelector(`[data-i="${i}"]`).classList.add('used');document.getElementById('slots').innerHTML=chosen.map(n=>`<button class="slot-chip" onclick="unpickWord(${n})">${shuffled[n]}</button>`).join('')||'<span style="color:#7f8aa8;font-size:12px">Pilih kata…</span>'};
+ window.unpickWord=i=>{chosen=chosen.filter(n=>n!==i);document.querySelector(`[data-i="${i}"]`).classList.remove('used');document.getElementById('slots').innerHTML=chosen.map(n=>`<button class="slot-chip" onclick="unpickWord(${n})">${shuffled[n]}</button>`).join('')||'<span style="color:#7f8aa8;font-size:12px">Pilih kata…</span>'};
+ window.resetWords=draw;
+ window.checkWords=()=>{let sentence=chosen.map(n=>shuffled[n]).join(' ').toLowerCase();let target=q.answer.toLowerCase().replace(/[.!?]$/,'');let fb=document.getElementById('fb');fb.classList.add('show');if(sentence===target){fb.textContent='Tepat! Susunan kalimatmu sudah sesuai.';setTimeout(()=>{idx++;if(idx>=arrangeData.length)finishGame('Kamu berhasil merangkai semua kalimat!');else draw()},850)}else fb.textContent='Belum tepat. Perhatikan subjek, predikat, dan urutan keterangan. Coba lagi.'};
+ }draw();
+}
+const detective=[
+ {text:'Para siswa-siswa mengikuti diskusi di kelas.',bad:'Para siswa-siswa',fix:'Para siswa',why:'Kata “para” sudah menyatakan jamak sehingga tidak perlu mengulang bentuk jamak pada “siswa-siswa”.'},
+ {text:'Ibu membeli obat di apotik dekat rumah.',bad:'apotik',fix:'apotek',why:'Bentuk baku menurut KBBI adalah “apotek”.'},
+ {text:'Dia adalah merupakan ketua kelompok kami.',bad:'adalah merupakan',fix:'adalah / merupakan',why:'“Adalah” dan “merupakan” memiliki fungsi serupa pada konstruksi ini; gunakan salah satunya.'}
+];
+function renderDetective(stage){
+ let i=0;function draw(){let q=detective[i];stage.innerHTML=`<div class="play-top"><span class="tag">🕵️ KASUS ${i+1}/3</span><span class="tag">Pilih bagian yang perlu diperbaiki</span></div><h3>Temukan bagian yang tidak tepat pada kalimat berikut:</h3><div class="question" style="background:#ffffff08;padding:18px;border-radius:14px">“${q.text}”</div><div class="options">${[q.bad,'mengikuti diskusi','di kelas','tidak ada kesalahan'].map((x,n)=>`<button class="option" onclick="detectAnswer(${n})">${x}</button>`).join('')}</div><div class="feedback" id="fb"></div><div class="play-actions"><span class="tag">Amati bentuk kata dan kehematan kalimat.</span><button class="btn" id="next" style="display:none" onclick="nextDetect()">Kasus berikutnya →</button></div>`}
+ window.detectAnswer=n=>{let q=detective[i],fb=document.getElementById('fb');fb.classList.add('show');document.querySelectorAll('.option').forEach((b,k)=>{b.disabled=true;if(k===0)b.classList.add('correct');else if(k===n)b.classList.add('wrong')});fb.innerHTML=n===0?`Tepat. ${q.why}`:`Belum tepat. Bagian yang perlu diperbaiki adalah “${q.bad}”. ${q.why}`;document.getElementById('next').style.display='inline-block'};
+ window.nextDetect=()=>{i++;if(i===detective.length)finishGame('Semua kasus berhasil diperiksa!');else draw()};draw();
+}
+const pairs=[['Tesis','Pernyataan pendapat utama'],['Personifikasi','Benda diberi sifat manusia'],['Alur','Rangkaian peristiwa cerita'],['Fakta','Pernyataan yang dapat dibuktikan']];
+function renderMatch(stage){
+ let selected=null,matched=[];let cards=[...pairs.map((p,i)=>({id:i,side:0,text:p[0]})),...pairs.map((p,i)=>({id:i,side:1,text:p[1]}))].sort(()=>Math.random()-.5);
+ stage.innerHTML=`<div class="play-top"><span class="tag">🃏 PASANGAN BAHASA</span><span class="tag" id="matchCount">0/4 pasangan</span></div><h3>Cocokkan istilah dengan pengertiannya.</h3><p style="font-size:12px">Pilih satu kartu istilah, lalu pilih kartu definisi yang sesuai.</p><div class="match-grid" id="matchGrid">${cards.map((c,i)=>`<button class="match-item" data-index="${i}" onclick="chooseMatch(${i})">${c.text}</button>`).join('')}</div><div class="feedback show" id="matchFb">Pasangan yang tepat akan tetap terbuka.</div>`;
+ window.chooseMatch=i=>{let c=cards[i],el=document.querySelector(`[data-index="${i}"]`);if(matched.includes(c.id)||el.classList.contains('picked'))return;if(selected===null){selected=i;el.classList.add('picked');return}let prev=cards[selected],prevEl=document.querySelector(`[data-index="${selected}"]`);if(prev.id===c.id&&prev.side!==c.side){matched.push(c.id);prevEl.classList.remove('picked');prevEl.classList.add('matched');el.classList.add('matched');selected=null;document.getElementById('matchCount').textContent=matched.length+'/4 pasangan';document.getElementById('matchFb').textContent='Bagus! Satu pasangan berhasil ditemukan.';if(matched.length===4)setTimeout(()=>finishGame('Semua pasangan berhasil ditemukan!'),650)}else{el.classList.add('picked');document.getElementById('matchFb').textContent='Belum cocok. Coba cari hubungan istilah dan definisinya.';setTimeout(()=>{el.classList.remove('picked');prevEl.classList.remove('picked');selected=null},650)}};
+}
+const story=['Pengenalan tokoh dan latar cerita','Muncul masalah atau konflik','Konflik berkembang menuju puncak','Penyelesaian konflik'];
+function renderStory(stage){
+ let order=[...story].sort(()=>Math.random()-.5);stage.innerHTML=`<div class="play-top"><span class="tag">📜 PETUALANGAN CERITA</span><span class="tag">Urutkan alur</span></div><h3>Susun tahapan alur cerita dari awal hingga akhir.</h3><p style="font-size:12px">Pilih tahapan berdasarkan urutan peristiwa yang logis.</p><div id="storyList" class="sequence-list">${order.map((s,i)=>`<button class="option" data-i="${i}" style="width:100%;text-align:left" onclick="moveStory(${i})">${i+1}. ${s}</button>`).join('')}</div><div class="feedback" id="storyFb"></div><div class="play-actions"><button class="btn ghost" onclick="renderGame('cerita')">Acak ulang</button><button class="btn" onclick="checkStory()">Periksa urutan</button></div>`;
+ window.moveStory=i=>{if(i===0)return;[order[i-1],order[i]]=[order[i],order[i-1]];document.getElementById('storyList').innerHTML=order.map((s,k)=>`<button class="option" style="width:100%;text-align:left" onclick="moveStory(${k})">${k+1}. ${s}</button>`).join('')};
+ window.checkStory=()=>{let fb=document.getElementById('storyFb');fb.classList.add('show');if(order.every((x,i)=>x===story[i])){fb.textContent='Benar! Urutan alur sudah logis.';setTimeout(()=>finishGame('Alur cerita berhasil disusun!'),750)}else fb.textContent='Belum tepat. Ingat: pengenalan, konflik, perkembangan konflik, lalu penyelesaian.'};
+}
+const duel=[
+ {q:'Kalimat yang paling efektif adalah …',o:['Para siswa-siswa sedang berdiskusi.','Siswa sedang berdiskusi.','Siswa-siswa pada sedang berdiskusi.','Banyak para siswa berdiskusi.'],a:1,why:'“Siswa sedang berdiskusi” hemat dan memiliki struktur yang jelas.'},
+ {q:'Majas yang memberi sifat manusia kepada benda disebut …',o:['Hiperbola','Metafora','Personifikasi','Ironi'],a:2,why:'Personifikasi menggambarkan benda atau alam seolah-olah memiliki sifat manusia.'},
+ {q:'Bagian teks argumentasi yang berisi pendapat utama disebut …',o:['Tesis','Orientasi','Koda','Abstraksi'],a:0,why:'Tesis merupakan pernyataan pendapat atau posisi penulis terhadap isu.'},
+ {q:'Unsur intrinsik yang berkaitan dengan tempat dan waktu kejadian adalah …',o:['Amanat','Sudut pandang','Tema','Latar'],a:3,why:'Latar mencakup tempat, waktu, dan suasana dalam cerita.'}
+];
+function renderDuel(stage){
+ let i=0,score=0,remaining=20,interval;function draw(){if(i>=duel.length){clearInterval(interval);finishGame(`Duel selesai! Skor kamu ${score}/${duel.length}.`);return}let q=duel[i];stage.innerHTML=`<div class="play-top"><span class="tag">⚔️ RONDE ${i+1}/${duel.length}</span><span class="timer" id="timer">⏱ ${remaining}s</span></div><div class="progress-line"><span style="width:${i/duel.length*100}%"></span></div><div class="question">${q.q}</div><div class="options">${q.o.map((o,k)=>`<button class="option" onclick="duelAnswer(${k})">${String.fromCharCode(65+k)}. ${o}</button>`).join('')}</div><div class="feedback" id="duelFb"></div>`}
+ function next(){i++;remaining=20;if(i>=duel.length){clearInterval(interval);finishGame(`Duel selesai! Skor kamu ${score}/${duel.length}.`)}else draw()}
+ window.duelAnswer=k=>{clearInterval(interval);let q=duel[i];document.querySelectorAll('#gameStage .option').forEach((b,n)=>{b.disabled=true;if(n===q.a)b.classList.add('correct');else if(n===k)b.classList.add('wrong')});let fb=document.getElementById('duelFb');fb.classList.add('show');fb.textContent=(k===q.a?'Tepat! ':'Belum tepat. ')+q.why;setTimeout(next,1150)};
+ draw();interval=setInterval(()=>{remaining--;let t=document.getElementById('timer');if(t)t.textContent='⏱ '+remaining+'s';if(remaining<=0){clearInterval(interval);let fb=document.getElementById('duelFb');fb.classList.add('show');fb.textContent='Waktu habis! '+duel[i].why;document.querySelectorAll('#gameStage .option').forEach(b=>b.disabled=true);setTimeout(next,1100)}},1000);
+}
+const quizQuestions=[
+ {q:'Apa tujuan utama teks argumentasi?',o:['Menghibur pembaca melalui cerita khayalan','Meyakinkan pembaca dengan pendapat dan alasan','Menggambarkan objek secara terperinci','Memberikan petunjuk melakukan sesuatu'],a:1,why:'Teks argumentasi berusaha meyakinkan pembaca melalui pendapat yang didukung alasan dan bukti.'},
+ {q:'Kalimat manakah yang menggunakan majas personifikasi?',o:['Wajahnya bersinar seperti bulan.','Ia berlari secepat kilat.','Daun-daun menari tertiup angin.','Suaranya sangat keras.'],a:2,why:'Daun digambarkan dapat “menari”, yaitu tindakan yang dilekatkan pada manusia.'},
+ {q:'Unsur cerpen yang menjelaskan pesan penulis kepada pembaca adalah …',o:['Amanat','Latar','Alur','Tokoh'],a:0,why:'Amanat adalah pesan atau nilai yang dapat dipetik dari cerita.'},
+ {q:'Manakah bentuk kata baku?',o:['Resiko','Aktifitas','Apotek','Ijin'],a:2,why:'Bentuk baku yang tepat adalah “apotek”; bentuk lainnya ialah risiko, aktivitas, dan izin.'},
+ {q:'Bagian teks editorial yang berisi pandangan redaksi terhadap isu disebut …',o:['Argumentasi atau penyampaian pendapat','Daftar pustaka','Dialog antartokoh','Orientasi cerita'],a:0,why:'Editorial menyampaikan sikap redaksi melalui pendapat dan argumentasi terhadap isu aktual.'}
+];
+function renderQuiz(){
+ const stage=document.getElementById('quizStage');let submitted=stage.dataset.done==='yes';if(submitted)return;
+ stage.innerHTML=`<div class="play-top"><span class="tag">📝 5 PERTANYAAN</span><span class="tag">10 XP per jawaban benar</span></div><form id="quizForm">${quizQuestions.map((q,i)=>`<div class="quiz-question"><div class="eyebrow">PERTANYAAN ${i+1}</div><h3>${q.q}</h3>${q.o.map((o,k)=>`<label><input type="radio" name="q${i}" value="${k}" required> ${o}</label>`).join('')}</div>`).join('')}<button class="btn" type="submit">Kirim jawaban →</button></form>`;
+ document.getElementById('quizForm').addEventListener('submit',e=>{e.preventDefault();let score=0,details=quizQuestions.map((q,i)=>{let picked=Number(new FormData(e.target).get('q'+i));let correct=picked===q.a;if(correct)score++;return `<div class="quiz-question"><h3>${i+1}. ${correct?'✅':'❌'} ${q.q}</h3><p>${q.why}</p></div>`}).join('');let xp=score*10;state.xp+=xp;state.quizzes++;save();stage.dataset.done='yes';stage.innerHTML=`<div class="result"><div style="font-size:50px">🎓</div><div class="eyebrow">HASIL EVALUASI</div><div class="big">${score}/5</div><h2>${score>=4?'Luar biasa!':'Terus berlatih!'}</h2><p>Kamu memperoleh ${xp} XP dari kuis ini.</p></div><h2>Pembahasan jawaban</h2>${details}<button class="btn" onclick="document.getElementById('quizStage').dataset.done='no';renderQuiz()">Ulangi kuis</button>`;});
+}
+function renderBadges(){
+ const list=[{i:'🌱',t:'Langkah Pertama',d:'Mulai menjelajahi Bahasa Quest',ok:state.xp>0},{i:'🎮',t:'Penjelajah Game',d:'Selesaikan satu permainan',ok:state.games>=1},{i:'🧠',t:'Pembelajar Aktif',d:'Selesaikan satu kuis',ok:state.quizzes>=1},{i:'⚡',t:'Pengumpul XP',d:'Kumpulkan 100 XP',ok:state.xp>=100},{i:'🏆',t:'Ahli Tantangan',d:'Selesaikan tiga permainan',ok:state.games>=3},{i:'📚',t:'Legenda Bahasa',d:'Capai level 5',ok:level()>=5}];
+ document.getElementById('badges').innerHTML=list.map(b=>`<div class="card" style="opacity:${b.ok?1:.45}"><div style="font-size:28px">${b.i}</div><h3>${b.t} ${b.ok?'✓':'🔒'}</h3><p style="font-size:12px;margin:0">${b.d}</p></div>`).join('');
+}
+function resetProgress(){if(confirm('Yakin ingin menghapus seluruh XP dan progres di perangkat ini?')){state.xp=0;state.games=0;state.quizzes=0;state.completed=[];save();toast('Progres berhasil direset')}}
+updateStats();renderBadges();
+</script>
+</body>
+</html>
